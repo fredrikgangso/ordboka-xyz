@@ -98,7 +98,8 @@ class GoogleSheetsService {
           values.length < 7 ||
           !values[2] ||
           values[2].replace(/"/g, "").trim() === "" ||
-          values[2].replace(/"/g, "").trim() === "TRUE"
+          values[2].replace(/"/g, "").trim() === "TRUE" ||
+          values[2].replace(/"/g, "").trim() === "Tittel på ord"
         ) {
           continue;
         }
@@ -116,7 +117,12 @@ class GoogleSheetsService {
         };
 
         // Only add entries that have at least a word and one definition
-        if (entry.word && entry.definition && entry.word !== "TRUE") {
+        if (
+          entry.word &&
+          entry.definition &&
+          entry.word !== "TRUE" &&
+          entry.word !== "Tittel på ord"
+        ) {
           data.push(entry);
         }
       }
@@ -173,7 +179,12 @@ class GoogleSheetsService {
           definition5: cells[10] ? cells[10].v : "", // Column K
         };
 
-        if (entry.word && entry.definition && entry.word !== "TRUE") {
+        if (
+          entry.word &&
+          entry.definition &&
+          entry.word !== "TRUE" &&
+          entry.word !== "Tittel på ord"
+        ) {
           data.push(entry);
         }
       }
@@ -215,7 +226,12 @@ class GoogleSheetsService {
           definition5: row[8] || "", // Column K
         };
 
-        if (entry.word && entry.definition && entry.word !== "TRUE") {
+        if (
+          entry.word &&
+          entry.definition &&
+          entry.word !== "TRUE" &&
+          entry.word !== "Tittel på ord"
+        ) {
           data.push(entry);
         }
       }

@@ -5,8 +5,7 @@
         <router-link to="/">Ordboka</router-link>
       </div>
       <div class="nav-links">
-        <!-- <router-link to="/">Home</router-link> -->
-        <router-link to="/dictionary">Dictionary</router-link>
+        <!-- <router-link to="/dictionary">Dictionary</router-link> -->
       </div>
     </nav>
 
