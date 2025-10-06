@@ -23,11 +23,13 @@ pnpm install
 ### 2. Configure Google Sheets
 
 1. Create a Google Sheets document with the following columns:
+
    - Column A: **Word**
    - Column B: **Definition**
    - Column C: **Example** (optional)
 
 2. Make your sheet publicly viewable:
+
    - Go to Share → Change to "Anyone with the link can view"
 
 3. Get your Sheet ID from the URL:
@@ -39,8 +41,8 @@ pnpm install
 4. Update the configuration in `src/services/googleSheets.js`:
 
    ```javascript
-   const SHEET_ID = 'your-actual-sheet-id-here'
-   const SHEET_NAME = 'Sheet1' // Change if your sheet has a different name
+   const SHEET_ID = "your-actual-sheet-id-here";
+   const SHEET_NAME = "Sheet1"; // Change if your sheet has a different name
    ```
 
 ### 3. Update GitHub Pages Configuration
@@ -49,18 +51,18 @@ Update the `base` property in `vite.config.js` to match your repository name:
 
 ```javascript
 export default defineConfig({
-  base: '/your-repo-name/', // Replace with your actual repo name
+  base: "/your-repo-name/", // Replace with your actual repo name
   // ... other config
-})
+});
 ```
 
 Also update the router base in `src/main.js`:
 
 ```javascript
 const router = createRouter({
-  history: createWebHistory('/your-repo-name/'), // Match your repo name
-  routes
-})
+  history: createWebHistory("/your-repo-name/"), // Match your repo name
+  routes,
+});
 ```
 
 ## Development
@@ -112,10 +114,10 @@ The app supports multiple methods to fetch data from Google Sheets:
 
 ### Sample Sheet Structure
 
-| Word | Definition | Example |
-|------|------------|---------|
-| Hello | A greeting or expression of goodwill | Hello, how are you today? |
-| Vue | A progressive JavaScript framework | We built this app using Vue.js |
+| Word  | Definition                           | Example                        |
+| ----- | ------------------------------------ | ------------------------------ |
+| Hello | A greeting or expression of goodwill | Hello, how are you today?      |
+| Vue   | A progressive JavaScript framework   | We built this app using Vue.js |
 
 ## Configuration Options
 

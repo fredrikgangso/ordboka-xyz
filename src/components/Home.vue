@@ -5,24 +5,24 @@
       A modern dictionary application powered by Google Sheets data.
       Browse and search through dictionary entries with real-time updates.
     </p>
-    
+
     <div class="features">
       <div class="feature-card">
         <h3>📚 Dictionary Entries</h3>
         <p>Browse comprehensive dictionary data</p>
       </div>
-      
+
       <div class="feature-card">
         <h3>🔍 Real-time Search</h3>
         <p>Find words and definitions instantly</p>
       </div>
-      
+
       <div class="feature-card">
         <h3>☁️ Cloud Powered</h3>
         <p>Data sourced from Google Sheets</p>
       </div>
     </div>
-    
+
     <div class="cta">
       <router-link to="/dictionary" class="cta-button">
         Explore Dictionary
@@ -104,7 +104,7 @@ h1 {
   h1 {
     font-size: 2rem;
   }
-  
+
   .features {
     grid-template-columns: 1fr;
   }
