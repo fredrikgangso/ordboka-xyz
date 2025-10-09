@@ -1,5 +1,6 @@
 <template>
     <div class="max-w-5xl mx-auto">
+        <ThemeToggle />
 
         <header class="mb-5">
             <h1 class="text-2xl font-extrabold tracking-tight">Ordboka</h1>
@@ -97,6 +98,7 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import { googleSheetsService } from '../services/googleSheets.js'
+import ThemeToggle from './ThemeToggle.vue';
 
 defineOptions({ name: 'Dictionary' })
 
