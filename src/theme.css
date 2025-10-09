@@ -1,0 +1,38 @@
+/* Theme variables for Tailwind-driven colors */
+@layer base {
+  :root,
+  .theme-light {
+    /* store as space-separated RGB for alpha support */
+    --background-1: 248 250 252; /* slate-50 */
+    --surface-1: 255 255 255; /* white */
+    --border-1: 226 232 240; /* slate-200 */
+
+    --text-1: 15 23 42; /* slate-900 */
+    --text-2: 100 116 139; /* slate-500 */
+
+    --accent-color: 37 99 235; /* blue-600 */
+    --accent-foreground: 255 255 255; /* white */
+
+    --warning: 245 158 11; /* amber-500 */
+    --error: 225 29 72; /* rose-600 */
+    --highlight: 126 34 206; /* purple-700 */
+  }
+
+  /* Dark theme uses Tailwind's `dark` class (and optional `.theme-dark`) */
+  .dark,
+  .theme-dark {
+    --background-1: 2 6 23; /* slate-950 */
+    --surface-1: 15 23 42; /* slate-900 */
+    --border-1: 51 65 85; /* slate-700 */
+
+    --text-1: 248 250 252; /* slate-50 */
+    --text-2: 148 163 184; /* slate-400 */
+
+    --accent-color: 59 130 246; /* blue-500 */
+    --accent-foreground: 255 255 255; /* white */
+
+    --warning: 245 158 11; /* amber-500 */
+    --error: 244 63 94; /* rose-500 */
+    --highlight: 168 85 247; /* purple-500 */
+  }
+}

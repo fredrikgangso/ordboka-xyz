@@ -1,3 +1,5 @@
+@import "./theme.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -28,11 +30,20 @@
 }
 
 /* Tailwind-powered base and helpers */
-html, body { @apply min-h-full bg-slate-50 text-slate-900; }
-#app { @apply min-h-screen flex flex-col; }
+html,
+body {
+  @apply min-h-full bg-background-1 text-text-1;
+}
+#app {
+  @apply min-h-screen flex flex-col;
+}
 
-.muted { @apply text-slate-500; }
-.surface { @apply bg-white border border-slate-200 rounded-xl shadow-sm; }
+.muted {
+  @apply text-text-2;
+}
+.surface {
+  @apply bg-surface-1 border border-border-1 rounded-xl shadow-sm;
+}
 
 html,
 body {
