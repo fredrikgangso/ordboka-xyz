@@ -1,82 +1,83 @@
 <template>
-    <div class="dictionary">
-        <header class="page-header">
-            <h1>Ordboka</h1>
-            <p class="tagline muted">En enkel ordbok drevet av Google Sheets</p>
+    <div class="max-w-5xl mx-auto">
+        <header class="mb-5">
+            <h1 class="text-2xl font-extrabold tracking-tight">Ordboka</h1>
+            <p class="mt-1 text-slate-500 text-sm">En enkel ordbok drevet av Google Sheets</p>
         </header>
 
         <!-- Google Sheets Setup Instructions -->
-        <div class="setup-notice" v-if="!isConfigured">
-            <h3>🔧 Setup Required</h3>
-            <p>To connect to Google Sheets, you need to:</p>
-            <ol>
+        <div v-if="!isConfigured" class="bg-amber-50 border border-amber-200 rounded-xl p-5 mb-6 text-amber-800">
+            <h3 class="font-bold mb-2">🔧 Setup Required</h3>
+            <p class="mb-2">To connect to Google Sheets, you need to:</p>
+            <ol class="list-decimal list-inside space-y-1">
                 <li>Create a Google Sheets document with columns: Word, Definition, Example</li>
                 <li>Make the sheet publicly viewable</li>
                 <li>Get the sheet ID from the URL</li>
                 <li>Update the SHEET_ID in src/services/googleSheets.js</li>
             </ol>
-            <button @click="isConfigured = true" class="continue-btn">
+            <button @click="isConfigured = true" class="mt-3 inline-flex items-center rounded-lg bg-blue-600 px-3 py-2 text-white font-semibold hover:bg-blue-700">
                 Continue with Demo Data
             </button>
         </div>
 
         <!-- Search Bar -->
-        <div class="search-section surface" v-if="isConfigured">
-            <input v-model="searchTerm" @input="filterEntries" placeholder="Søk etter ord…" class="search-input"
-                type="search" aria-label="Søk etter ord" />
-            <button @click="loadData" class="refresh-btn" :disabled="loading">
+        <div v-if="isConfigured" class="flex items-center gap-3 p-3 mb-5 bg-white border border-slate-200 rounded-xl shadow-sm">
+            <input
+                v-model="searchTerm"
+                @input="filterEntries"
+                placeholder="Søk etter ord…"
+                class="flex-1 px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                type="search"
+                aria-label="Søk etter ord"
+            />
+            <button @click="loadData" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg px-4 py-2 disabled:opacity-60" :disabled="loading">
                 {{ loading ? 'Laster…' : 'Oppdater data' }}
             </button>
         </div>
 
         <!-- Loading State -->
-        <div v-if="loading && isConfigured" class="loading">
+        <div v-if="loading && isConfigured" class="text-center p-5">
             <p>Loading dictionary entries...</p>
         </div>
 
         <!-- Error State -->
-        <div v-if="error && isConfigured" class="error">
+        <div v-if="error && isConfigured" class="text-center p-5 text-rose-600">
             <p>{{ error }}</p>
-            <button @click="loadData" class="retry-btn">Retry</button>
+            <button @click="loadData" class="mt-3 inline-flex items-center rounded-lg bg-rose-600 px-3 py-2 text-white font-semibold hover:bg-rose-700">Retry</button>
         </div>
 
         <!-- Dictionary Entries -->
-        <div v-if="!loading && !error && isConfigured" class="entries">
-            <div class="results-info">
+        <div v-if="!loading && !error && isConfigured">
+            <div class="mb-2 text-slate-500 text-sm">
                 <p>{{ filteredEntries.length }} entries found</p>
             </div>
 
-            <div class="entry-grid">
-                <div v-for="entry in filteredEntries" :key="entry.word" class="entry-card">
-                    <div class="word-header">
-                        <h3 class="word">{{ entry.word }}</h3>
-                        <span v-if="entry.wordClass" class="word-class">{{ entry.wordClass }}</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div v-for="entry in filteredEntries" :key="entry.word" class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition">
+                    <div class="flex justify-between items-center mb-3 border-b border-slate-200 pb-2">
+                        <h3 class="text-slate-900 m-0 text-lg font-extrabold tracking-tight">{{ entry.word }}</h3>
+                        <span v-if="entry.wordClass" class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full text-xs font-semibold">{{ entry.wordClass }}</span>
                     </div>
 
-                    <div v-if="entry.inflections" class="inflections">
+                    <div v-if="entry.inflections" class="text-purple-700 mb-1 text-sm">
                         <strong>Bøyninger:</strong> {{ entry.inflections }}
                     </div>
 
-                    <div v-if="entry.additionalInfo" class="additional-info">
+                    <div v-if="entry.additionalInfo" class="text-slate-500 italic text-sm mb-2">
                         <em>{{ entry.additionalInfo }}</em>
                     </div>
 
-                    <div class="definitions">
-                        <p v-if="entry.definition" class="definition"><span class="def-index">1.</span> {{
-                            entry.definition }}</p>
-                        <p v-if="entry.definition2" class="definition"><span class="def-index">2.</span> {{
-                            entry.definition2 }}</p>
-                        <p v-if="entry.definition3" class="definition"><span class="def-index">3.</span> {{
-                            entry.definition3 }}</p>
-                        <p v-if="entry.definition4" class="definition"><span class="def-index">4.</span> {{
-                            entry.definition4 }}</p>
-                        <p v-if="entry.definition5" class="definition"><span class="def-index">5.</span> {{
-                            entry.definition5 }}</p>
+                    <div class="leading-relaxed">
+                        <p v-if="entry.definition" class="text-slate-800 mb-1.5 text-[0.97rem]"><span class="inline-block w-5 font-bold text-amber-500">1.</span> {{ entry.definition }}</p>
+                        <p v-if="entry.definition2" class="text-slate-800 mb-1.5 text-[0.97rem]"><span class="inline-block w-5 font-bold text-amber-500">2.</span> {{ entry.definition2 }}</p>
+                        <p v-if="entry.definition3" class="text-slate-800 mb-1.5 text-[0.97rem]"><span class="inline-block w-5 font-bold text-amber-500">3.</span> {{ entry.definition3 }}</p>
+                        <p v-if="entry.definition4" class="text-slate-800 mb-1.5 text-[0.97rem]"><span class="inline-block w-5 font-bold text-amber-500">4.</span> {{ entry.definition4 }}</p>
+                        <p v-if="entry.definition5" class="text-slate-800 mb-1.5 text-[0.97rem]"><span class="inline-block w-5 font-bold text-amber-500">5.</span> {{ entry.definition5 }}</p>
                     </div>
                 </div>
             </div>
 
-            <div v-if="filteredEntries.length === 0" class="no-results">
+            <div v-if="filteredEntries.length === 0" class="text-center text-slate-500 p-6">
                 <p>Ingen oppføringer for "{{ searchTerm }}"</p>
             </div>
         </div>
@@ -154,201 +155,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.dictionary {
-    max-width: 100vh;
-    margin: 0 auto;
-}
-
-.page-header {
-    margin: 0 0 1.25rem 0;
-}
-
-.tagline {
-    margin-top: 0.25rem;
-}
-
-.setup-notice {
-    background: #fff8e1;
-    border: 1px solid #ffeaa7;
-    border-radius: 12px;
-    padding: 1.25rem 1.25rem 1rem;
-    margin-bottom: 1.5rem;
-    text-align: left;
-}
-
-.setup-notice h3 {
-    color: #7c5900;
-    margin-bottom: 0.5rem;
-}
-
-.setup-notice ol {
-    color: #7c5900;
-    margin: 0.5rem 0 0.75rem;
-}
-
-.continue-btn {
-    background-color: var(--brand);
-    color: white;
-    padding: 0.55rem 0.9rem;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.search-section {
-
-    gap: 0.75rem;
-    align-items: center;
-    padding: 0.9rem;
-    margin-bottom: 1.25rem;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.search-input {
-    flex-grow: 1;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    font-size: 1rem;
-    transition: border-color 0.2s;
-}
-
-.refresh-btn {
-    padding: 0.75rem 1rem;
-    background-color: var(--brand);
-    color: #fff;
-    border-color: transparent;
-    font-weight: 700;
-}
-
-.refresh-btn:hover:not(:disabled) {
-    background-color: var(--brand-700);
-}
-
-.refresh-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-.loading,
-.error {
-    text-align: center;
-    padding: 1.25rem;
-}
-
-.error {
-    color: #c2410c;
-}
-
-.retry-btn {
-    background-color: #e11d48;
-    color: #fff;
-    padding: 0.45rem 0.9rem;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    margin-top: 0.75rem;
-}
-
-.results-info {
-    margin-bottom: 0.75rem;
-    color: var(--muted);
-}
-
-.entry-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1rem;
-}
-
-.entry-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 1rem 1rem 1rem;
-    border-radius: 14px;
-    box-shadow: 0 1px 2px rgba(2, 6, 23, 0.04);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.entry-card:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(2, 6, 23, 0.08);
-}
-
-.word-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 0.5rem;
-}
-
-.word {
-    color: var(--text);
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 800;
-    letter-spacing: -0.01em;
-}
-
-.word-class {
-    background-color: rgba(37, 99, 235, 0.1);
-    color: var(--brand-700);
-    padding: 0.2rem 0.6rem;
-    border-radius: 999px;
-    font-size: 0.8rem;
-    font-weight: 700;
-}
-
-.inflections {
-    color: #6b21a8;
-    margin-bottom: 0.4rem;
-    font-size: 0.92rem;
-}
-
-.additional-info {
-    color: var(--muted);
-    margin-bottom: 0.75rem;
-    font-size: 0.92rem;
-    font-style: italic;
-}
-
-.definitions {
-    line-height: 1.6;
-}
-
-.definition {
-
-    margin-bottom: 0.5rem;
-    font-size: 0.97rem;
-}
-
-.def-index {
-    display: inline-block;
-    width: 1.4rem;
-    color: var(--accent);
-    font-weight: 700;
-}
-
-.no-results {
-    text-align: center;
-    color: var(--muted);
-    padding: 1.5rem;
-}
-
-@media (max-width: 768px) {
-    .search-section {
-        flex-direction: column;
-        gap: 0.6rem;
-    }
-
-    .entry-grid {
-        grid-template-columns: 1fr;
-    }
-}
-</style>

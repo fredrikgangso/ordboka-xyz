@@ -1,25 +1,21 @@
 <template>
   <div id="app">
-    <header class="navbar">
-      <div class="container nav-inner">
-        <div class="nav-brand">
-          <router-link to="/" class="brand-link">Ordboka</router-link>
-        </div>
-        <div class="nav-links">
-          <!-- Reserved for future routes -->
-        </div>
+    <header class="sticky top-0 z-10 bg-white/90 border-b border-slate-200 backdrop-blur backdrop-saturate-150">
+      <div class="max-w-5xl mx-auto px-4 flex items-center justify-between py-3">
+        <router-link to="/" class="text-blue-600 font-extrabold tracking-tight text-xl">Ordboka</router-link>
+        <nav class="flex gap-2"><!-- Future routes --></nav>
       </div>
     </header>
 
-    <main class="main-content">
-      <div class="container">
+    <main class="flex-1 py-8">
+      <div class="max-w-5xl mx-auto px-4">
         <router-view />
       </div>
     </main>
 
-    <footer class="footer">
-      <div class="container footer-inner">
-        <p class="muted">Data powered by Google Sheets</p>
+    <footer class="border-t bg-white/90">
+      <div class="max-w-5xl mx-auto px-4 text-center py-4">
+        <p class="text-slate-500">Data powered by Google Sheets</p>
       </div>
     </footer>
   </div>
@@ -31,59 +27,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.navbar {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.86));
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: saturate(160%) blur(6px);
-}
-
-.nav-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.9rem 0;
-}
-
-.brand-link {
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--brand);
-}
-
-.nav-links {
-  display: flex;
-  gap: 0.75rem;
-}
-
-.nav-links a {
-  color: var(--text);
-  padding: 0.4rem 0.7rem;
-  border-radius: 8px;
-  transition: background-color 0.2s;
-}
-
-.nav-links a:hover,
-.nav-links a.router-link-active {
-  background-color: rgba(37, 99, 235, 0.08);
-}
-
-.main-content {
-  flex: 1;
-  padding: 2rem 0 2.5rem;
-}
-
-.footer {
-  border-top: 1px solid var(--border);
-  background: var(--surface);
-}
-
-.footer-inner {
-  padding: 1rem 0;
-  text-align: center;
-}
-</style>
+<style scoped></style>

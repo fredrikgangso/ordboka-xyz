@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   /* Brand + UI palette */
   --brand: #2563eb;
@@ -22,6 +26,13 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
+/* Tailwind-powered base and helpers */
+html, body { @apply min-h-full bg-slate-50 text-slate-900; }
+#app { @apply min-h-screen flex flex-col; }
+
+.muted { @apply text-slate-500; }
+.surface { @apply bg-white border border-slate-200 rounded-xl shadow-sm; }
 
 html,
 body {
