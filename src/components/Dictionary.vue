@@ -1,6 +1,9 @@
 <template>
     <div class="dictionary">
-        <h1>Dictionary</h1>
+        <header class="page-header">
+            <h1>Ordboka</h1>
+            <p class="tagline muted">En enkel ordbok drevet av Google Sheets</p>
+        </header>
 
         <!-- Google Sheets Setup Instructions -->
         <div class="setup-notice" v-if="!isConfigured">
@@ -18,10 +21,11 @@
         </div>
 
         <!-- Search Bar -->
-        <div class="search-section" v-if="isConfigured">
-            <input v-model="searchTerm" @input="filterEntries" placeholder="Search for words..." class="search-input" />
+        <div class="search-section surface" v-if="isConfigured">
+            <input v-model="searchTerm" @input="filterEntries" placeholder="Søk etter ord…" class="search-input"
+                type="search" aria-label="Søk etter ord" />
             <button @click="loadData" class="refresh-btn" :disabled="loading">
-                {{ loading ? 'Loading...' : 'Refresh Data' }}
+                {{ loading ? 'Laster…' : 'Oppdater data' }}
             </button>
         </div>
 
@@ -58,27 +62,22 @@
                     </div>
 
                     <div class="definitions">
-                        <p v-if="entry.definition" class="definition">
-                            <strong>1.</strong> {{ entry.definition }}
-                        </p>
-                        <p v-if="entry.definition2" class="definition">
-                            <strong>2.</strong> {{ entry.definition2 }}
-                        </p>
-                        <p v-if="entry.definition3" class="definition">
-                            <strong>3.</strong> {{ entry.definition3 }}
-                        </p>
-                        <p v-if="entry.definition4" class="definition">
-                            <strong>4.</strong> {{ entry.definition4 }}
-                        </p>
-                        <p v-if="entry.definition5" class="definition">
-                            <strong>5.</strong> {{ entry.definition5 }}
-                        </p>
+                        <p v-if="entry.definition" class="definition"><span class="def-index">1.</span> {{
+                            entry.definition }}</p>
+                        <p v-if="entry.definition2" class="definition"><span class="def-index">2.</span> {{
+                            entry.definition2 }}</p>
+                        <p v-if="entry.definition3" class="definition"><span class="def-index">3.</span> {{
+                            entry.definition3 }}</p>
+                        <p v-if="entry.definition4" class="definition"><span class="def-index">4.</span> {{
+                            entry.definition4 }}</p>
+                        <p v-if="entry.definition5" class="definition"><span class="def-index">5.</span> {{
+                            entry.definition5 }}</p>
                     </div>
                 </div>
             </div>
 
             <div v-if="filteredEntries.length === 0" class="no-results">
-                <p>No entries found for "{{ searchTerm }}"</p>
+                <p>Ingen oppføringer for "{{ searchTerm }}"</p>
             </div>
         </div>
     </div>
@@ -158,71 +157,76 @@ export default {
 
 <style scoped>
 .dictionary {
-    max-width: 1000px;
+    max-width: 100vh;
     margin: 0 auto;
 }
 
+.page-header {
+    margin: 0 0 1.25rem 0;
+}
+
+.tagline {
+    margin-top: 0.25rem;
+}
+
 .setup-notice {
-    background-color: #fff3cd;
+    background: #fff8e1;
     border: 1px solid #ffeaa7;
-    border-radius: 8px;
-    padding: 2rem;
-    margin-bottom: 2rem;
+    border-radius: 12px;
+    padding: 1.25rem 1.25rem 1rem;
+    margin-bottom: 1.5rem;
     text-align: left;
 }
 
 .setup-notice h3 {
-    color: #856404;
-    margin-bottom: 1rem;
+    color: #7c5900;
+    margin-bottom: 0.5rem;
 }
 
 .setup-notice ol {
-    color: #856404;
-    margin: 1rem 0;
+    color: #7c5900;
+    margin: 0.5rem 0 0.75rem;
 }
 
 .continue-btn {
-    background-color: #3498db;
+    background-color: var(--brand);
     color: white;
-    padding: 0.5rem 1rem;
+    padding: 0.55rem 0.9rem;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
 }
 
 .search-section {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
+
+    gap: 0.75rem;
     align-items: center;
+    padding: 0.9rem;
+    margin-bottom: 1.25rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 .search-input {
-    flex: 1;
-    padding: 0.75rem;
+    flex-grow: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
     font-size: 1rem;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    outline: none;
-    transition: border-color 0.3s;
-}
-
-.search-input:focus {
-    border-color: #3498db;
+    transition: border-color 0.2s;
 }
 
 .refresh-btn {
-    padding: 0.75rem 1.5rem;
-    background-color: #27ae60;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
+    padding: 0.75rem 1rem;
+    background-color: var(--brand);
+    color: #fff;
+    border-color: transparent;
+    font-weight: 700;
 }
 
 .refresh-btn:hover:not(:disabled) {
-    background-color: #229954;
+    background-color: var(--brand-700);
 }
 
 .refresh-btn:disabled {
@@ -233,82 +237,84 @@ export default {
 .loading,
 .error {
     text-align: center;
-    padding: 2rem;
+    padding: 1.25rem;
 }
 
 .error {
-    color: #e74c3c;
+    color: #c2410c;
 }
 
 .retry-btn {
-    background-color: #e74c3c;
-    color: white;
-    padding: 0.5rem 1rem;
+    background-color: #e11d48;
+    color: #fff;
+    padding: 0.45rem 0.9rem;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
-    margin-top: 1rem;
+    margin-top: 0.75rem;
 }
 
 .results-info {
-    margin-bottom: 1rem;
-    color: #7f8c8d;
+    margin-bottom: 0.75rem;
+    color: var(--muted);
 }
 
 .entry-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .entry-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1rem 1rem 1rem;
+    border-radius: 14px;
+    box-shadow: 0 1px 2px rgba(2, 6, 23, 0.04);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .entry-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(2, 6, 23, 0.08);
 }
 
 .word-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid #ecf0f1;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
     padding-bottom: 0.5rem;
 }
 
 .word {
-    color: #2c3e50;
+    color: var(--text);
     margin: 0;
-    font-size: 1.3rem;
-    font-weight: bold;
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
 }
 
 .word-class {
-    background-color: #3498db;
-    color: white;
+    background-color: rgba(37, 99, 235, 0.1);
+    color: var(--brand-700);
     padding: 0.2rem 0.6rem;
-    border-radius: 12px;
+    border-radius: 999px;
     font-size: 0.8rem;
-    font-weight: bold;
+    font-weight: 700;
 }
 
 .inflections {
-    color: #8e44ad;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
+    color: #6b21a8;
+    margin-bottom: 0.4rem;
+    font-size: 0.92rem;
 }
 
 .additional-info {
-    color: #95a5a6;
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    font-size: 0.92rem;
     font-style: italic;
 }
 
@@ -317,25 +323,28 @@ export default {
 }
 
 .definition {
-    color: #34495e;
-    margin-bottom: 0.7rem;
-    font-size: 0.95rem;
+
+    margin-bottom: 0.5rem;
+    font-size: 0.97rem;
 }
 
-.definition strong {
-    color: #e67e22;
-    margin-right: 0.5rem;
+.def-index {
+    display: inline-block;
+    width: 1.4rem;
+    color: var(--accent);
+    font-weight: 700;
 }
 
 .no-results {
     text-align: center;
-    color: #7f8c8d;
-    padding: 2rem;
+    color: var(--muted);
+    padding: 1.5rem;
 }
 
 @media (max-width: 768px) {
     .search-section {
         flex-direction: column;
+        gap: 0.6rem;
     }
 
     .entry-grid {
